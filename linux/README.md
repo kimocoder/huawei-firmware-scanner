@@ -3,6 +3,8 @@ Huawei Firmware Scanner (Linux Ver)
 
 Huawei Firmware Scanner is windows batch script used for scanning new or old firmware in Huawei OTA server. This project is use ```curl``` command-line tool to query each version on OTA server and filter query result to get firmware.
 
+Notice: Linux version made by **@xyzy**, [original link](https://github.com/xyzy/huawei-firmware-scanner) .
+
 How to use it?
 -----
 
