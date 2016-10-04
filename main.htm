@@ -5,55 +5,35 @@
     <title>华为固件扫描 - HwOCheck v3.0</title>
     <link href="lib/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="lib/skin/layer.css" type="text/css" rel="stylesheet" />
+    <link href="lib/main.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="lib/layer.js"></script>
-<style>
-body {background-color: #f5f5f5; min-width:830px; font-family:"微软雅黑", "Microsoft Yahei", sans-serif}
-option[value="-"] {color:#aaa;}
-.form-group,select,input,label {float:left;}
-input {width:85px !important; text-align:center;}
-#queryBtn {margin-left: 5px !important;}
-#model {width:150px;}
-#querynum, #mode {width:90px;}
-#toolbar .form-group * {margin:0 3px;}
-#toolbar {margin-top: 10px; margin-left: 5px;}
-tbody td {font-size:12px;}
-.progress {height: 34px; width: 200px; float: right; margin-right: 10px; margin-bottom: 0; background-color: #ffffff;}
-td:nth-child(1) {min-width:80px;}
-td:nth-child(2) {min-width:180px;}
-td:nth-child(3) {min-width:60px;}
-td:nth-child(4) {min-width:90px;}
-td:nth-child(5) {min-width:250px;}
-td:nth-child(7) {min-width:70px;}
-#result {width: 98%; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow-y: auto;}
-.progress-info {
-    position: absolute;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    width: 200px;
-    text-shadow: 0 0 5px #fff;
-    font-size: 12px;
-}
-</style>
+    <script type="text/javascript" src="lib/transfer.js"></script>
 </head>
 <body>
     <div id="toolbar" style="overflow: auto">
         <div class="form-group">
             <select id="model" class="form-control">
-                <option value="">型号</option>
-                <option value="G1018|g223">CHM-UL00</option>
-                <option value="G1022|g223">CHM-TL00H</option>
-                <option value="G1021|g223">CHM-TL00</option>
-                <option value="G962|g77">EVA-AL19</option>
-                <option value="G1079|g104">EVA-L09/L19</option>
-                <!--<option value="custom">自定义</option>-->
+                <option value="||0">型号</option>
+                <option value="G1018|g223|1">CHM-UL00</option>
+                <option value="G1022|g223|1">CHM-TL00H</option>
+                <option value="G1021|g223|1">CHM-TL00</option>
+                <option value="G962|g77|2">EVA-AL10</option>
+                <option value="G1079|g104|1">EVA-L09/L19</option>
+                <option value="G639|g272|2">H60-L01</option>
+                <option value="G639|g272|1">H60-L11</option>
+                <option value="G884|g77|1">NXT-AL10</option>
+                <option value="G1076|g104|2">NXT-L09/L29</option>
+                <option value="G1163|g104|1">VIE-L09/L29</option>
+                <option value="custom">自定义</option>
+                <option value="clear">清空自定义</option>
             </select>
+            <input type="text" class="form-control" id="modelc" placeholder="自定义版本">
             <input type="text" class="form-control" id="startVersion" placeholder="起始版本">
             <input type="number" class="form-control" id="querynum" min="1" max="100000" step="10" placeholder="查询量">
             <select id="mode" class="form-control">
                 <option value="">模式</option>
-                <option value="1" selected>模式Ⅰ</option>
+                <option value="1" >模式Ⅰ</option>
                 <option value="2">模式Ⅱ</option>
             </select>
             <button id="queryBtn" class="btn btn-success">查询可用版本</button>
@@ -82,7 +62,7 @@ td:nth-child(7) {min-width:70px;}
     </div>
     <script type="text/javascript">
         function doCheck() {
-            if($("#model").val() == "") {
+            if($("#model").val() == "||0") {
                 layer.tips('请先选择手机型号', '#model', {tips:3});
                 return false;
             }
@@ -148,13 +128,54 @@ td:nth-child(7) {min-width:70px;}
                 });
             }
         });
+        $('#model').on('change', function() {   // on change model
+            if($(this).val() == "custom") { // if custom selected
+                var customInput = layer.prompt({    // do a prompt for add new model
+                    title: '自定义型号（如: G1018|g223）',
+                    formType: 0
+                }, function(data){
+                    $('#model option[value="custom"]').before('<option value="' + data + '">' + data + '</option>');    // append
+                    $("#model option").removeAttr("selected");      // change choose
+                    $('#model option[value="' + data + '"]').attr("selected","");
+                    transfer('model.dat', 'w', transfer('model.dat', 'r') + '$SR$' + data); // save to file
+                    layer.close(customInput);
+                });
+                return;
+            }
+            if($(this).val() == "clear") { // clear saved model
+                transfer('model.dat', 'd');
+                transfer('first.dat', 'd');
+                layer.msg('清空成功', {shade:0.3});
+                window.location.reload(); // reload
+                return;
+            }
+            if(typeof($(this).val().split('|')[2]) != 'undefined') {   // switch mode by attr
+                $("#mode option").removeAttr("selected");
+                $("#mode option:nth-child(" + ($(this).val().split('|')[2]*1+1) + ")").attr("selected","");
+            } else {    // if mode undefined set default value
+                $("#mode option").removeAttr("selected");
+                $("#mode option:nth-child(2)").attr("selected","");
+            }
+        });
         $(window).on('load', function() {
             $("#result").css("height", $(window).height()-$("#toolbar").height()-20);
             
-            layer.alert('本软件为开源软件，供花粉实验使用<br/>请勿放在中文路径或桌面将无法正常使用！<br/><br/>源代码下载：<a href="https://github.com/dfc643/huawei-firmware-scanner/tree/v3">@Github</a><br/>欢迎修改完善源代码并再发布', {
-                icon: 0,
-                title: '使用提示'
-            })
+            if(transfer('first.dat', 'r') != "no") {    // show first time
+                layer.alert('本软件为开源软件，供花粉实验使用<br/>请勿放在中文路径或桌面将无法正常使用！<br/><br/>源代码下载：<a href="https://github.com/dfc643/huawei-firmware-scanner/tree/v3">@Github</a><br/>欢迎修改完善源代码并再发布', {
+                    icon: 0,
+                    title: '使用提示'
+                })
+                transfer('first.dat', 'w', 'no');    // Set not first and donot show next time
+            }
+            
+            if(transfer('model.dat', 'r') != "") {   // read saved model and append to select list
+                var models = transfer('model.dat', 'r').split('$SR$');
+                for( key in models ) {
+                    if(models[key] != "") {
+                        $('#model option[value="custom"]').before('<option value="' + models[key] + '">' + models[key] + '</option>');    // append
+                    }
+                }
+            }
         });
         $(window).resize(function() {
             $("#result").css("height", $(window).height()-$("#toolbar").height()-20);

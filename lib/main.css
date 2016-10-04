@@ -1,0 +1,20 @@
+body {background-color: #f5f5f5; min-width:830px; font-family:"微软雅黑", "Microsoft Yahei", sans-serif}
+option[value="-"] {color:#aaa;}
+.form-group,.form-group select,.form-group input {float:left;}
+.form-group input {width:85px !important; text-align:center;}
+#queryBtn {margin-left: 5px !important;}
+#model {width:150px;}
+#modelc {width: 150px !important; display:none;}
+#querynum, #mode {width:90px;}
+#toolbar .form-group * {margin:0 3px;}
+#toolbar {margin-top: 10px; margin-left: 5px;}
+tbody td {font-size:12px;}
+.progress {height: 34px; width: 200px; float: right; margin-right: 10px; margin-bottom: 0; background-color: #ffffff;}
+td:nth-child(1) {min-width:80px;}
+td:nth-child(2) {min-width:180px;}
+td:nth-child(3) {min-width:60px;}
+td:nth-child(4) {min-width:90px;}
+td:nth-child(5) {min-width:250px;}
+td:nth-child(7) {min-width:70px;}
+#result {width: 98%; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow-y: auto;}
+.progress-info {position: absolute;height: 34px;line-height: 34px;text-align: center;width: 200px;text-shadow: 0 0 5px #fff;font-size: 12px;}
