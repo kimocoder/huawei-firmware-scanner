@@ -5,6 +5,8 @@ Huawei Firmware Scanner is windows batch script used for scanning new or old fir
 
 If you're looking for terminal version, visit [here](https://github.com/dfc643/huawei-firmware-scanner/tree/v2) please.
 
+If you wanna modify this program and re-publish, you'd only modify this code and replace this code to released program's ```hwocheck``` folder. You can also change the ```CEF``` or ```PHP``` framework to others. This repo accept issues and pull request.
+
 How to use it?
 -----
 
