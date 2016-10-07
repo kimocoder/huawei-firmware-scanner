@@ -15,9 +15,11 @@
         <div class="form-group">
             <select id="model" class="form-control">
                 <option value="||0">型号</option>
+                <option value="G1059|g223|1">ALE-CL00</option>
                 <option value="G1018|g223|1">CHM-UL00</option>
                 <option value="G1022|g223|1">CHM-TL00H</option>
                 <option value="G1021|g223|1">CHM-TL00</option>
+                <option value="G1060|g223|1">CHM-CL00</option>
                 <option value="G962|g77|2">EVA-AL10</option>
                 <option value="G1079|g104|1">EVA-L09/L19</option>
                 <option value="G639|g272|2">H60-L01</option>
@@ -120,6 +122,12 @@
                             $(".progress .progress-bar").css("width", (window.progress/window.endprogress)*100 + "%");
                         }
                         $(".progress-info").text($("#startVersion").val()*1+window.progress + " / " + (endValue*1+1));
+                        if((window.progress/window.endprogress) == 1) {
+                            layer.alert('全部查询任务均已完成');
+                        }
+                        window.progress++;
+                    },
+                    error: function() {
                         if((window.progress/window.endprogress) == 1) {
                             layer.alert('全部查询任务均已完成');
                         }
