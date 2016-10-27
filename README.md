@@ -17,7 +17,7 @@ How to use it?
 Releases
 -----
 
-Download: https://yunpan.cn/cvsuVXCURVyUj  (Password: ac36)
+Download: http://pan.lanzou.com/700678
 
 ```
 [2016-10-05] v3.1 hotfix
