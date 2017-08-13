@@ -1,6 +1,12 @@
 Huawei Firmware Scanner
 =====
 
+### 项目目前暂停欢迎有兴趣的朋友继续开发
+**Project has been PAUSED welcome anyone to continue**
+
+### 华为 P9 固件请移步 https://pan.baidu.com/s/1bWS1yA
+**For Huawei P9 please look at https://pan.baidu.com/s/1bWS1yA**
+
 Huawei Firmware Scanner is windows batch script used for scanning new or old firmware in Huawei OTA server. This project is use ```php``` script to query each version on OTA server and filter query result to get firmware.
 
 If you're looking for terminal version, visit [here](https://github.com/dfc643/huawei-firmware-scanner/tree/v2) please.
